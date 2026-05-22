@@ -1,0 +1,53 @@
+.roadmap-panel{
+  padding: 1.5rem; 
+  border-radius: $border-radius-lg; 
+  background: rgba(255,255,255,0.02); 
+  border: 1px solid rgba(255,255,255,0.06);
+  backdrop-filter: blur(10px);
+}
+
+.chips{ 
+    display: flex; 
+    gap: 12px; 
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+}
+
+.chip{ 
+    padding: 10px 20px; 
+    border-radius: 99px; 
+    background: rgba(255, 255, 255, 0.04); 
+    border: 1px solid rgba(255,255,255,0.08); 
+    color: $muted; 
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+    &:hover {
+        background: rgba(255, 255, 255, 0.08);
+        color: #fff;
+    }
+
+    &.active{ 
+        background: $accent-500; 
+        color: #fff; 
+        border-color: transparent;
+        box-shadow: 0 8px 24px rgba($accent-500, 0.3); 
+    }
+}
+
+.custom input{ 
+    padding: 10px 16px; 
+    border-radius: $border-radius-md; 
+    background: rgba(255,255,255,0.03); 
+    border: 1px solid rgba(255,255,255,0.1); 
+    color: #fff;
+    font-family: $font-ui;
+    transition: all 0.3s ease;
+
+    &:focus {
+        outline: none;
+        border-color: rgba($accent-500, 0.5);
+    }
+}

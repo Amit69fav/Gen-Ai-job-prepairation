@@ -1,0 +1,15 @@
+@use 'sass:color';
+
+@mixin glass($alpha: 0.06) {
+  background: linear-gradient(180deg, rgba(255,255,255,$alpha), rgba(255,255,255,$alpha/2));
+  backdrop-filter: blur(6px) saturate(1.05);
+  border: 1px solid rgba(255,255,255,$alpha*1.5);
+}
+
+@mixin gradient-btn($from, $to) {
+  background: linear-gradient(90deg, $from, $to);
+  color: #fff;
+  box-shadow: 0 12px 30px rgba(color.mix($from,$to,50%),0.18);
+}
+
+@mixin transition($t: 250ms) { transition: all $t cubic-bezier(.2,.9,.2,1); }

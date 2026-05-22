@@ -1,0 +1,22 @@
+// Design tokens
+$font-ui: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Helvetica Neue", Arial, sans-serif;
+$font-mono: "SF Mono", "SFMono-Regular", ui-monospace, Menlo, monospace;
+
+// Slate & Midnight Theme (More professional/friendly than pure black)
+$bg-900: #0f172a; // Deep slate
+$bg-800: #1e293b; // Lighter slate
+$panel: rgba(255, 255, 255, 0.04);
+$glass: rgba(255, 255, 255, 0.06);
+$muted: #94a3b8;
+$accent-500: #3b82f6; // Professional Blue
+$accent-400: #60a5fa;
+$success: #10b981;
+$warning: #f59e0b;
+$danger: #ef4444;
+
+$border-radius-sm: 8px;
+$border-radius-md: 12px;
+$border-radius-lg: 20px;
+
+$shadow-soft: 0 10px 40px rgba(0, 0, 0, 0.3);
+$shadow-glass: 0 8px 32px 0 rgba(0, 0, 0, 0.25);

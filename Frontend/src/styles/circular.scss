@@ -1,0 +1,93 @@
+@import "./_variables.scss";
+
+.circular-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+
+    svg {
+        transform: translateZ(0); // Hardware acceleration
+    }
+
+    .track {
+        stroke: rgba(255, 255, 255, 0.05);
+    }
+
+    .progress-ring {
+        transition: stroke-dashoffset 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .inner-accent {
+        opacity: 0.5;
+    }
+
+    .score-content {
+        position: absolute;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        z-index: 1;
+
+        .score-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #fff;
+            line-height: 1;
+            font-family: $font-ui;
+            letter-spacing: -0.05em;
+
+            small {
+                font-size: 1rem;
+                opacity: 0.5;
+                margin-left: 2px;
+            }
+        }
+
+        .score-label {
+            font-size: 0.65rem;
+            font-weight: 800;
+            color: $muted;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            margin-top: 4px;
+        }
+    }
+
+    .pulse-container {
+        position: absolute;
+        height: 0;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        pointer-events: none;
+    }
+
+    .pulse-dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        box-shadow: 0 0 15px currentColor;
+        position: relative;
+        right: -6px;
+
+        &::after {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            border-radius: 50%;
+            border: 2px solid currentColor;
+            opacity: 0.4;
+            animation: pulse-ring 2s infinite;
+        }
+    }
+}
+
+@keyframes pulse-ring {
+    0% { transform: scale(0.8); opacity: 0.5; }
+    100% { transform: scale(1.6); opacity: 0; }
+}

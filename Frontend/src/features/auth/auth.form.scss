@@ -1,0 +1,173 @@
+/* Dark themed auth form styles matching design reference */
+$bg: #0f0f10;
+$panel: #111212;
+$input-bg: #ffffff;
+$muted: #b3b3b3;
+$accent: #e81457;
+
+@import '../../styles/_variables.scss';
+@import '../../styles/_mixins.scss';
+
+main{
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3.5rem 1rem;
+    background: radial-gradient(circle at center, $bg-800 0%, $bg-900 100%);
+    font-family: $font-ui;
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(circle at 50% 50%, rgba($accent-500, 0.08) 0%, transparent 50%);
+        pointer-events: none;
+    }
+}
+
+.form-container{
+    width: 100%;
+    max-width: 480px;
+    background: rgba(255, 255, 255, 0.02);
+    backdrop-filter: blur(25px);
+    padding: 3rem 2.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    color: #fff;
+    border-radius: 32px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+    position: relative;
+    z-index: 1;
+    animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+form{
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.form-container h1{
+    margin: 0 0 6px 0;
+    font-size: 44px;
+    font-weight: 800;
+    color: #ffffff;
+    letter-spacing: -0.6px;
+    font-family: $font-ui;
+}
+
+.form-subtitle{
+    margin: 0;
+    color: $muted;
+    font-size: 16px;
+}
+
+.input-group{
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.input-group label{
+    font-weight: 600;
+    color: #fff;
+    font-size: 18px;
+}
+
+.password-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+
+    input {
+        width: 100%;
+        padding-right: 50px !important; // Room for the toggle
+    }
+}
+
+.password-toggle {
+    position: absolute;
+    right: 12px;
+    background: transparent;
+    border: none;
+    color: $muted;
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    border-radius: 50%;
+
+    &:hover {
+        color: #fff;
+        background: rgba(255, 255, 255, 0.05);
+    }
+
+    &:focus {
+        outline: none;
+    }
+}
+
+.input-group input{
+    border: none;
+    outline: none;
+    padding: 16px 18px;
+    border-radius: 14px;
+    background: rgba(255,255,255,0.02);
+    color: #e6e6e9;
+    font-size: 16px;
+    @include transition();
+    border: 1px solid rgba(255,255,255,0.04);
+}
+
+.input-group input:focus{
+    box-shadow: 0 8px 34px rgba(232,20,87,0.14);
+    transform: translateY(-2px);
+}
+
+.input-group input::placeholder{ color: #9a9a9a; }
+
+.btn{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 14px 18px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: 700;
+    border: none;
+    width: 100%;
+    font-size: 16px;
+}
+
+.btn.primary{
+    @include gradient-btn($accent-500, $accent-400);
+    border-radius: 12px;
+}
+
+.btn.primary:hover{ transform: translateY(-3px); filter: saturate(1.06); }
+
+.redirect-link {
+    cursor: pointer;
+    color: $accent;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+@media (max-width: 480px) {
+    .form-container h1{ font-size: 48px; }
+}

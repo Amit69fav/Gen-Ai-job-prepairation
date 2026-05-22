@@ -1,0 +1,17 @@
+@import "./_variables.scss";
+@import "./_mixins.scss";
+
+.btn {
+  padding: 0.75rem 1rem;
+  border: none;
+  border-radius: 0.75rem;
+  cursor: pointer;
+  font-size: 1rem;
+  font-family: $font-ui;
+  transition: all 0.22s cubic-bezier(.2,.9,.2,1);
+
+  &.primary {
+    @include gradient-btn($accent-500, $accent-400);
+  }
+  &:active{ transform: translateY(1px); }
+}
