@@ -3,8 +3,12 @@ const cookieParser = require("cookie-parser")
 const cors = require("cors")
 const helmet = require("helmet")
 const morgan = require("morgan")
+const connectToDB = require("./config/database")
 
 const app = express()
+
+// Connect to database
+connectToDB()
 
 app.use(helmet())
 app.use(morgan("dev"))
