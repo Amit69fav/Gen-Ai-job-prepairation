@@ -1,4 +1,4 @@
-const { PDFParse } = require("pdf-parse")
+const pdf = require("pdf-parse")
 const { generateInterviewReport, generateInterviewSection, generateRoadmapForDays, generateATSResume } = require("../services/ai.service")
 const InterviewReportModel = require("../models/interviewReport.model")
 
@@ -17,13 +17,8 @@ async function generateInterviewReportController(req, res) {
 
         let resumeText = ""
         if (resumeFile) {
-            const parser = new PDFParse({ data: resumeFile.buffer });
-            try {
-                const pdfData = await parser.getText();
-                resumeText = pdfData.text;
-            } finally {
-                await parser.destroy();
-            }
+            const pdfData = await pdf(resumeFile.buffer);
+            resumeText = pdfData.text;
         }
 
         const interviewReportByAi = await generateInterviewReport({
@@ -115,13 +110,8 @@ async function generateATSResumeController(req, res) {
 
         let resumeText = ""
         if (resumeFile) {
-            const parser = new PDFParse({ data: resumeFile.buffer });
-            try {
-                const pdfData = await parser.getText();
-                resumeText = pdfData.text;
-            } finally {
-                await parser.destroy();
-            }
+            const pdfData = await pdf(resumeFile.buffer);
+            resumeText = pdfData.text;
         } else if (selfDescription) {
             resumeText = selfDescription
         } else {
