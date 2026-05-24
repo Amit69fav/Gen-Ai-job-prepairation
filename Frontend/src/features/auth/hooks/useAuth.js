@@ -26,6 +26,7 @@ export const useAuth = () => {
             setUser(data.user);
         }
         catch (error) {
+            throw error;
         }
         finally {
             setLoading(false);
@@ -44,21 +45,6 @@ export const useAuth = () => {
             setLoading(false);
         }
     }
-
-    useEffect(() => {
-        const getAndSetUser = async () => {
-            try {
-                const data = await getMe();
-                setUser(data.user);
-            } catch (error) {
-                console.log("User not logged in");
-                setUser(null);
-            } finally {
-                setLoading(false);
-            }
-        }
-        getAndSetUser();
-    }, [])
 
     return { user, loading, handleLogin, handleRegister, handleLogout };
 }

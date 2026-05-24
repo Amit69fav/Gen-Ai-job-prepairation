@@ -3,8 +3,10 @@ import './home.scss'
 import { generateInterviewReport } from '../services/interview.api'
 import CircularProgress from '../../../../components/CircularProgress'
 import AILoading from '../../../../components/AILoading'
+import { useAuth } from '../../hooks/useAuth'
 
 const Home = () => {
+    const { user, handleLogout } = useAuth()
     const [jobDescription, setJobDescription] = useState('')
     const [selfDescription, setSelfDescription] = useState('')
     const [resumeFile, setResumeFile] = useState(null)
@@ -105,6 +107,19 @@ const Home = () => {
     return (
         <>
             <AILoading active={loading} />
+            <nav className="navbar">
+                <div className="nav-brand">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{marginRight: '8px', color: '#3b82f6'}}>
+                        <path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
+                        <path d="m12 8-2 4 2 4 2-4-2-4Z"/>
+                    </svg>
+                    Gen AI Job Preparation
+                </div>
+                <div className="nav-user">
+                    <span>{user?.username}</span>
+                    <button onClick={handleLogout} className="logout-btn">Logout</button>
+                </div>
+            </nav>
             
             <main className={`home ${report ? 'report-view' : ''}`}>
                 {!report ? (

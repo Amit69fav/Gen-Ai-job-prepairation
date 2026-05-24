@@ -1,16 +1,32 @@
 const request = require('supertest');
 const mongoose = require('mongoose');
-const app = require('../src/app'); // Assuming src/app.js exports the express app
+const { MongoMemoryServer } = require('mongodb-memory-server');
+process.env.GOOGLE_GENAI_API_KEY = 'dummy-key';
+const app = require('../src/app');
 const userModel = require('../src/models/user.model');
+
+let mongoServer;
 
 describe('Authentication & Session Tests', () => {
     beforeAll(async () => {
-        // Connect to a test database if possible, or use existing
+        // Disconnect if already connected (from app.js)
+        if (mongoose.connection.readyState !== 0) {
+            await mongoose.disconnect();
+        }
+        mongoServer = await MongoMemoryServer.create();
+        const mongoUri = mongoServer.getUri();
+        await mongoose.connect(mongoUri);
+        process.env.JWT_SECRET = 'test-secret';
     });
 
     afterAll(async () => {
         await userModel.deleteMany({});
         await mongoose.connection.close();
+        await mongoServer.stop();
+    });
+
+    beforeEach(async () => {
+        await userModel.deleteMany({});
     });
 
     describe('Registration boundaries', () => {

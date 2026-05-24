@@ -1,7 +1,10 @@
 import axios from 'axios';
 
+const baseURL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
+const sanitizedBaseURL = baseURL.endsWith('/') ? baseURL.slice(0, -1) : baseURL;
+
 const api= axios.create({
-    baseURL: `${import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000'}/api/auth`,
+    baseURL: `${sanitizedBaseURL}/api/auth`,
     withCredentials: true
 });
 
@@ -28,9 +31,7 @@ export async function login({ email, password }) {
 
 export async function logout() {
     try {
-        const response = await api.get("/logout", {}, {
-            withCredentials: true
-        });
+        const response = await api.get("/logout");
         return response.data;
     } catch (error) {
         console.error("Error logging out user:", error);

@@ -15,7 +15,12 @@ app.use(morgan("dev"))
 app.use(express.json())
 app.use(cookieParser())
 app.use(cors({
-    origin: [process.env.CORS_ORIGIN, "https://your-frontend-domain.vercel.app"].filter(Boolean),
+    origin: [
+        process.env.CORS_ORIGIN,
+        "http://localhost:5173",
+        "http://localhost:5174",
+        ""
+    ].filter(Boolean),
     credentials: true
 }))
 
@@ -27,6 +32,10 @@ app.use(cors({
 // using all the routes
 app.use("/api/auth",authRouter)
 app.use("/api/interview",interviewRouter)
+
+app.get("/", (req, res) => {
+    res.json({ message: "Gen AI Job Preparation API is running..." })
+})
 
 // Global error handler
 app.use((err, req, res, next) => {

@@ -1,0 +1,13 @@
+{
+  "name": "gen-ai-job-preparation-suite",
+  "version": "1.0.0",
+  "scripts": {
+    "install-all": "npm install && cd backend && npm install && cd ../Frontend && npm install",
+    "dev-backend": "cd backend && npm run dev",
+    "dev-frontend": "cd Frontend && npm run dev",
+    "dev": "npx concurrently \"npm run dev-backend\" \"npm run dev-frontend\""
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.0"
+  }
+}

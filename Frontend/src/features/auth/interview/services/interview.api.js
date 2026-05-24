@@ -1,7 +1,10 @@
 import axios from 'axios';
 
+const baseURL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
+const sanitizedBaseURL = baseURL.endsWith('/') ? baseURL.slice(0, -1) : baseURL;
+
 const api = axios.create({
-    baseURL: `${import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000'}/api/interview`,
+    baseURL: `${sanitizedBaseURL}/api/interview`,
     withCredentials: true,
 });
 

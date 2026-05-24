@@ -63,13 +63,16 @@ STRICT JSON ENFORCEMENT:
 
         const userPrompt = `Candidate Data: ${JSON.stringify(resumeData)}`;
 
-        const result = await genAI.getGenerativeModel({ 
-            model: "gemini-1.5-flash", // Using standard stable model name
-            generationConfig: { responseMimeType: "application/json" }
-        }).generateContent([systemPrompt, userPrompt]);
+        const result = await genAI.models.generateContent({ 
+            model: "gemini-3.5-flash", // Using a widely available stable model
+            contents: userPrompt,
+            config: { 
+                systemInstruction: systemPrompt,
+                responseMimeType: "application/json" 
+            }
+        });
 
-        const response = result.response;
-        const text = response.text();
+        const text = result.text;
         
         return JSON.parse(text);
     } catch (error) {
@@ -121,18 +124,15 @@ Return ONLY valid JSON.`;
 
     try {
         const result = await genAI.models.generateContent({
-            model: 'gemini-3.1-flash-lite-preview',
-            contents: prompt
+            model: "gemini-3.5-flash",
+            contents: prompt,
+            config: {
+                responseMimeType: "application/json"
+            }
         });
 
         const text = result.text;
-        let jsonMatch = text.match(/\{[\s\S]*\}/);
-        if (jsonMatch) {
-            const parsedData = JSON.parse(jsonMatch[0]);
-            return parsedData;
-        }
-
-        throw new Error('Could not extract JSON from section generation response');
+        return JSON.parse(text);
     } catch (error) {
         console.error('Error generating interview section:', error);
         throw new Error(`Failed to generate interview section: ${error.message}`);
@@ -156,20 +156,15 @@ Make sure each day builds on the previous and covers different aspects like tech
 
     try {
         const result = await genAI.models.generateContent({
-            model: 'gemini-3.1-flash-lite-preview',
-            contents: prompt
+            model: "gemini-3.5-flash",
+            contents: prompt,
+            config: {
+                responseMimeType: "application/json"
+            }
         });
 
         const text = result.text;
-        let jsonMatch = text.match(/\[[\s\S]*\]/);
-        if (jsonMatch) {
-            const parsedData = JSON.parse(jsonMatch[0]);
-            if (Array.isArray(parsedData) && parsedData.length === days) {
-                return parsedData;
-            }
-        }
-
-        throw new Error('Could not extract valid roadmap from response');
+        return JSON.parse(text);
     } catch (error) {
         console.error('Error generating roadmap:', error);
         throw new Error(`Failed to generate roadmap: ${error.message}`);
@@ -200,16 +195,15 @@ Return ONLY a JSON object with this structure:
 
     try {
         const result = await genAI.models.generateContent({
-            model: "gemini-3.1-flash-lite-preview",
-            contents: prompt
+            model: "gemini-3.5-flash",
+            contents: prompt,
+            config: {
+                responseMimeType: "application/json"
+            }
         });
 
         const text = result.text;
-        let jsonMatch = text.match(/\{[\s\S]*\}/);
-        if (jsonMatch) {
-            return JSON.parse(jsonMatch[0]);
-        }
-        throw new Error("Could not parse structured resume data");
+        return JSON.parse(text);
     } catch (error) {
         console.error("Error generating ATS resume:", error);
         throw new Error(`Failed to generate ATS resume: ${error.message}`);

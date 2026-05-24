@@ -5,13 +5,19 @@ import Button from '../../../components/Button'
 import { useAuth } from '../hooks/useAuth';
 
 export const Login = () => {
-    const { loading, handleLogin } = useAuth();
+    const { user, loading, handleLogin } = useAuth();
     const navigate = useNavigate();
 
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
     const [showPassword, setShowPassword] = React.useState(false);
     const [error, setError] = React.useState('');
+
+    React.useEffect(() => {
+        if (user && !loading) {
+            navigate('/');
+        }
+    }, [user, loading, navigate]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();

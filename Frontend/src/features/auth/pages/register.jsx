@@ -13,7 +13,13 @@ export const Register = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [error, setError] = useState('');
 
-    const { loading, handleRegister } = useAuth();
+    const { user, loading, handleRegister } = useAuth();
+
+    React.useEffect(() => {
+        if (user && !loading) {
+            navigate('/');
+        }
+    }, [user, loading, navigate]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();

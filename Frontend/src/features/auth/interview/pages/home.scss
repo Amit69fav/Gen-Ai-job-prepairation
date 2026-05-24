@@ -4,25 +4,61 @@
 .home {
     min-height: 100vh;
     padding: 6rem 2rem;
-    background: radial-gradient(circle at top center, $bg-800 0%, $bg-900 100%);
-    color: #fff;
-    font-family: $font-ui;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+// ... (lines 5-11)
     position: relative;
     overflow-x: hidden;
 
     &::before {
-        content: '';
-        position: absolute;
-        top: -10%;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 80%;
-        height: 40%;
-        background: radial-gradient(circle, rgba($accent-500, 0.12) 0%, transparent 70%);
-        pointer-events: none;
+// ...
+    }
+}
+
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 1rem 2rem;
+    background: rgba($bg-900, 0.8);
+    backdrop-filter: blur(10px);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1000;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+
+    .nav-brand {
+        font-weight: 700;
+        font-size: 1.25rem;
+        color: #fff;
+    }
+
+    .nav-user {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+
+        span {
+            font-size: 0.9rem;
+            color: $muted;
+        }
+
+        .logout-btn {
+            background: rgba($danger, 0.1);
+            color: $danger;
+            border: 1px solid rgba($danger, 0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 99px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+
+            &:hover {
+                background: $danger;
+                color: #fff;
+            }
+        }
     }
 }
 
