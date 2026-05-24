@@ -14,14 +14,26 @@ app.use(helmet())
 app.use(morgan("dev"))
 app.use(express.json())
 app.use(cookieParser())
+const allowedOrigins = [
+    process.env.CORS_ORIGIN,
+    "http://localhost:5173",
+    "http://localhost:5174",
+    "https://gen-ai-job-prepairation.vercel.app" // User's specific production URL
+].filter(Boolean);
+
 app.use(cors({
-    origin: [
-        process.env.CORS_ORIGIN,
-        "http://localhost:5173",
-        "http://localhost:5174",
-        ""
-    ].filter(Boolean),
-    credentials: true
+    origin: function(origin, callback) {
+        // Allow requests with no origin (like mobile apps or curl requests)
+        if (!origin) return callback(null, true);
+        if (allowedOrigins.indexOf(origin) !== -1 || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
 }))
 
 // require all the route here
