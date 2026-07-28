@@ -19,6 +19,18 @@ function buildCookieOptions() {
     return opts
 }
 
+// Options to use when clearing the cookie: include path/domain/sameSite/secure but DO NOT include maxAge
+function buildClearCookieOptions() {
+    const opts = {
+        httpOnly: true,
+        sameSite: isProd ? 'none' : 'lax',
+        secure: isProd,
+        path: '/',
+    }
+    if (COOKIE_DOMAIN) opts.domain = COOKIE_DOMAIN
+    return opts
+}
+
 
 /**
  * @name registerUserController
@@ -126,8 +138,8 @@ async function logoutUserController(req,res){
     if (token) {
         await tokenBlacklistModel.create({token}).catch(() => {}); 
     }
-    // Clear cookie using the same options (path/domain) to ensure it gets removed in the browser
-    res.clearCookie("token", buildCookieOptions())
+    // Clear cookie using the same path/domain/sameSite/secure (but without maxAge) so the browser removes it
+    res.clearCookie("token", buildClearCookieOptions())
     res.status(200).json({message:"User logged out successfully"})
 }
 
