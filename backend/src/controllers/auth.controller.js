@@ -3,6 +3,22 @@ const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
 const tokenBlacklistModel = require("../models/blacklist.model")    
 
+const isProd = process.env.NODE_ENV === 'production'
+const COOKIE_DOMAIN = process.env.COOKIE_DOMAIN || undefined
+const COOKIE_MAX_AGE = 24 * 60 * 60 * 1000 // 1 day
+
+function buildCookieOptions() {
+    const opts = {
+        httpOnly: true,
+        sameSite: isProd ? 'none' : 'lax',
+        secure: isProd,
+        maxAge: COOKIE_MAX_AGE,
+        path: '/',
+    }
+    if (COOKIE_DOMAIN) opts.domain = COOKIE_DOMAIN
+    return opts
+}
+
 
 /**
  * @name registerUserController
@@ -31,12 +47,7 @@ async function registerUserController(req,res){
             {id:User._id,username: User.username},process.env.JWT_SECRET,{expiresIn:"1d"}
         ) 
         
-        res.cookie("token", token, { 
-            httpOnly: true, 
-            sameSite: "none",
-            secure: true,
-            maxAge: 24 * 60 * 60 * 1000 // 1 day
-        })
+        res.cookie("token", token, buildCookieOptions())
         res.status(201).json({
             message:"User registered successfully",
             user:{
@@ -73,12 +84,7 @@ async function loginUserController(req,res){
     const token=   jwt.sign(
         {id:user._id,username: user.username},process.env.JWT_SECRET,{expiresIn:"1d"}
     ) 
-    res.cookie("token", token, { 
-        httpOnly: true, 
-        sameSite: "none",
-        secure: true,
-        maxAge: 24 * 60 * 60 * 1000 // 1 day
-    })
+    res.cookie("token", token, buildCookieOptions())
     res.status(200).json({
         message:"User logged in successfully",
         user:{
@@ -120,7 +126,8 @@ async function logoutUserController(req,res){
     if (token) {
         await tokenBlacklistModel.create({token}).catch(() => {}); 
     }
-    res.clearCookie("token")
+    // Clear cookie using the same options (path/domain) to ensure it gets removed in the browser
+    res.clearCookie("token", buildCookieOptions())
     res.status(200).json({message:"User logged out successfully"})
 }
 
